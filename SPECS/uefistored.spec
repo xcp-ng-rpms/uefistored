@@ -1,6 +1,6 @@
 Name:           uefistored
 Version:        0.1
-Release:        0.pre1.1%{?dist}
+Release:        0.pre1.2%{?dist}
 Summary:        Variables store for UEFI guests
 License:        GPLv2
 URL:            https://github.com/xcp-ng/uefistored
@@ -12,6 +12,8 @@ BuildRequires:  gcc
 BuildRequires:  xen-dom0-libs-devel
 BuildRequires:  openssl-devel
 BuildRequires:  libxml2-devel
+
+Requires: varstored-guard
 
 Obsoletes: varstored
 Obsoletes: varstored-tools
@@ -46,5 +48,8 @@ ln -s uefistored %{buildroot}%{_sbindir}/varstored
 %{_sbindir}/varstored
 
 %changelog
+* Tue Aug 18 2020 Samuel Verschelde <stormi-xcp@ylix.fr> - 0.1-0.pre1.2
+- Require varstored-guard
+
 * Thu Aug 13 2020 Samuel Verschelde <stormi-xcp@ylix.fr> - 0.1-0.pre1.1
 - Initial build

@@ -1,5 +1,5 @@
 Name:           uefistored
-Version:        0.1
+Version:        0.1.1
 Release:        1%{?dist}
 Summary:        Variables store for UEFI guests
 License:        GPLv2
@@ -47,8 +47,11 @@ ln -s uefistored %{buildroot}%{_sbindir}/varstored
 %{_sbindir}/varstored
 
 %changelog
+* Fri Aug 21 2020 Samuel Verschelde <stormi-xcp@ylix.fr> - 0.1.1-1
+- Update to 0.1.1
+
 * Wed Aug 19 2020 Samuel Verschelde <stormi-xcp@ylix.fr> - 0.1-1
-- update to 0.1 release of uefistored
+- Update to 0.1 release of uefistored
 
 * Tue Aug 18 2020 Samuel Verschelde <stormi-xcp@ylix.fr> - 0.1-0.pre1.2
 - Require varstored-guard

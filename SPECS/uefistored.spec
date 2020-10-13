@@ -1,5 +1,5 @@
 Name:           uefistored
-Version:        0.1.1
+Version:        0.2.1
 Release:        1%{?dist}
 Summary:        Variables store for UEFI guests
 License:        GPLv2
@@ -47,6 +47,9 @@ ln -s uefistored %{buildroot}%{_sbindir}/varstored
 %{_sbindir}/varstored
 
 %changelog
+* Tue Oct 13 2020 Samuel Verschelde <stormi-xcp@ylix.fr> - 0.2.1-1
+- Update to 0.2.1
+
 * Fri Aug 21 2020 Samuel Verschelde <stormi-xcp@ylix.fr> - 0.1.1-1
 - Update to 0.1.1
 

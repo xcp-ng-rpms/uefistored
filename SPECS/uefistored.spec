@@ -42,9 +42,14 @@ make
 # symlink binary to varstored to let XAPI find it
 ln -s uefistored %{buildroot}%{_sbindir}/varstored
 
+# Install PK.auth
+mkdir -p %{buildroot}%{_prefix}/share/varstored/
+cp %{_sourcedir}/PK.auth %{buildroot}%{_prefix}/share/varstored/PK.auth
+
 %files
 %{_sbindir}/uefistored
 %{_sbindir}/varstored
+%{_prefix}/share/varstored/PK.auth
 
 %changelog
 * Thu Oct 22 2020 Samuel Verschelde <stormi-xcp@ylix.fr> - 0.2.2-1

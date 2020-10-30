@@ -5,6 +5,7 @@ Summary:        Variables store for UEFI guests
 License:        GPLv2
 URL:            https://github.com/xcp-ng/uefistored
 Source0:        https://github.com/xcp-ng/uefistored/archive/v%{version}/%{name}-%{version}.tar.gz
+Source1:        PK.auth
 
 BuildRequires:  make
 BuildRequires:  gcc
@@ -42,9 +43,15 @@ make
 # symlink binary to varstored to let XAPI find it
 ln -s uefistored %{buildroot}%{_sbindir}/varstored
 
+# Install PK.auth
+install -d %{buildroot}%{_datadir}/varstored/
+cp %{SOURCE1} %{buildroot}%{_datadir}/varstored/
+
 %files
 %{_sbindir}/uefistored
 %{_sbindir}/varstored
+%dir %{_datadir}/varstored
+%{_datadir}/varstored/PK.auth
 
 %changelog
 * Thu Oct 22 2020 Samuel Verschelde <stormi-xcp@ylix.fr> - 0.2.2-1

@@ -5,6 +5,7 @@ Summary:        Variables store for UEFI guests
 License:        GPLv2
 URL:            https://github.com/xcp-ng/uefistored
 Source0:        https://github.com/xcp-ng/uefistored/archive/v%{version}/%{name}-%{version}.tar.gz
+Source1:        PK.auth
 
 BuildRequires:  make
 BuildRequires:  gcc
@@ -43,13 +44,14 @@ make
 ln -s uefistored %{buildroot}%{_sbindir}/varstored
 
 # Install PK.auth
-mkdir -p %{buildroot}%{_prefix}/share/varstored/
-cp %{_sourcedir}/PK.auth %{buildroot}%{_prefix}/share/varstored/PK.auth
+install -d %{buildroot}%{_datadir}/varstored/
+cp %{SOURCE1} %{buildroot}%{_datadir}/varstored/
 
 %files
 %{_sbindir}/uefistored
 %{_sbindir}/varstored
-%{_prefix}/share/varstored/PK.auth
+%dir %{_datadir}/varstored
+%{_datadir}/varstored/PK.auth
 
 %changelog
 * Thu Oct 22 2020 Samuel Verschelde <stormi-xcp@ylix.fr> - 0.2.2-1

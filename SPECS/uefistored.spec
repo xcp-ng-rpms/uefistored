@@ -1,5 +1,5 @@
 Name:           uefistored
-Version:        0.2.2
+Version:        0.2.3
 Release:        1%{?dist}
 Summary:        Variables store for UEFI guests
 License:        GPLv2
@@ -54,6 +54,9 @@ cp %{SOURCE1} %{buildroot}%{_datadir}/varstored/
 %{_datadir}/varstored/PK.auth
 
 %changelog
+* Fri Oct 30 2020 Samuel Verschelde <stormi-xcp@ylix.fr> - 0.2.3-1
+- Update to 0.2.3
+
 * Thu Oct 22 2020 Samuel Verschelde <stormi-xcp@ylix.fr> - 0.2.2-1
 - Update to 0.2.2
 

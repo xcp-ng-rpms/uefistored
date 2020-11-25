@@ -1,6 +1,6 @@
 Name:           uefistored
 Version:        0.2.6
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Variables store for UEFI guests
 License:        GPLv2
 URL:            https://github.com/xcp-ng/uefistored
@@ -16,7 +16,6 @@ BuildRequires:  libxml2-devel
 Requires: varstored-guard
 
 Obsoletes: varstored
-Obsoletes: varstored-tools
 
 %description
 uefistored is a service that runs in dom0 userspace for servicing port
@@ -54,6 +53,9 @@ cp %{SOURCE1} %{buildroot}%{_datadir}/varstored/
 %{_datadir}/varstored/PK.auth
 
 %changelog
+* Wed Nov 25 2020 Samuel Verschelde <stormi-xcp@ylix.fr> - 0.2.6-2
+- Do not obsolete varstored-tools anymore
+
 * Mon Nov 23 2020 Samuel Verschelde <stormi-xcp@ylix.fr> - 0.2.6-1
 - Update to 0.2.6
 

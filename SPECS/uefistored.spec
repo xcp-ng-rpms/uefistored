@@ -1,5 +1,5 @@
 Name:           uefistored
-Version:        0.3.0
+Version:        0.4.0
 Release:        1%{?dist}
 Summary:        Variables store for UEFI guests
 License:        GPLv2
@@ -13,8 +13,12 @@ BuildRequires:  xen-dom0-libs-devel
 BuildRequires:  openssl-devel
 BuildRequires:  libxml2-devel
 BuildRequires:  libseccomp-devel
+BuildRequires:  clang-analyzer
+BuildRequires:  git
+BuildRequires:  valgrind
 
 Requires: varstored-guard
+Requires: varstored-tools
 
 Obsoletes: varstored
 
@@ -47,13 +51,24 @@ ln -s uefistored %{buildroot}%{_sbindir}/varstored
 install -d %{buildroot}%{_datadir}/varstored/
 cp %{SOURCE1} %{buildroot}%{_datadir}/varstored/
 
+%check
+make -C tests fetch
+make test
+
 %files
 %{_sbindir}/uefistored
 %{_sbindir}/varstored
 %dir %{_datadir}/varstored
 %{_datadir}/varstored/PK.auth
+%{_sbindir}/secureboot-certs
 
 %changelog
+* Thu Mar 04 2021 Bobby Eshleman <bobby.eshleman@gmail.com> - 0.4.0-1
+- Update to 0.4.0
+- Add secureboot-certs script
+- Require varstored-tools for secureboot-certs
+- Add unit tests to %check
+
 * Thu Dec 10 2020 Samuel Verschelde <stormi-xcp@ylix.fr> - 0.3.0-1
 - Update to 0.3.0
 

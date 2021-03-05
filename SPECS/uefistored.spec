@@ -67,7 +67,7 @@ make test
 - Update to 0.4.0
 - Add secureboot-certs script
 - Require varstored-tools for secureboot-certs
-- Add unit tests to %check
+- Add unit tests to %%check
 
 * Thu Dec 10 2020 Samuel Verschelde <stormi-xcp@ylix.fr> - 0.3.0-1
 - Update to 0.3.0

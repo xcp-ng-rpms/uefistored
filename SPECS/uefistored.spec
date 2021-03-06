@@ -48,8 +48,8 @@ make
 ln -s uefistored %{buildroot}%{_sbindir}/varstored
 
 # Install PK.auth
-install -d %{buildroot}%{_datadir}/varstored/
-cp %{SOURCE1} %{buildroot}%{_datadir}/varstored/
+install -d %{buildroot}%{_datadir}/uefistored/
+cp %{SOURCE1} %{buildroot}%{_datadir}/uefistored/
 
 %check
 make -C tests fetch
@@ -58,8 +58,8 @@ make test
 %files
 %{_sbindir}/uefistored
 %{_sbindir}/varstored
-%dir %{_datadir}/varstored
-%{_datadir}/varstored/PK.auth
+%dir %{_datadir}/uefistored
+%{_datadir}/uefistored/PK.auth
 %{_sbindir}/secureboot-certs
 
 %changelog

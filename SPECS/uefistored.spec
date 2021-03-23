@@ -1,11 +1,12 @@
 Name:           uefistored
-Version:        0.4.0
+Version:        0.4.2
 Release:        1%{?dist}
 Summary:        Variables store for UEFI guests
 License:        GPLv2
 URL:            https://github.com/xcp-ng/uefistored
 Source0:        https://github.com/xcp-ng/uefistored/archive/v%{version}/%{name}-%{version}.tar.gz
 Source1:        PK.auth
+Source2:        https://github.com/nemequ/munit/archive/v0.2.0/munit-0.2.0.tar.gz
 
 BuildRequires:  make
 BuildRequires:  gcc
@@ -38,6 +39,10 @@ protocol.
 
 %prep
 %autosetup -p1
+%setup -a 2
+
+# uefistored expects the munit directory to be at test/munit
+ln -sf ../munit-0.2.0 tests/munit
 
 %build
 make
@@ -52,7 +57,6 @@ install -d %{buildroot}%{_datadir}/uefistored/
 cp %{SOURCE1} %{buildroot}%{_datadir}/uefistored/
 
 %check
-make -C tests fetch
 make test
 
 %files
@@ -64,7 +68,7 @@ make test
 
 %changelog
 * Thu Mar 04 2021 Bobby Eshleman <bobby.eshleman@gmail.com> - 0.4.0-1
-- Update to 0.4.0
+- Update to 0.4.2
 - Add secureboot-certs script
 - Require varstored-tools for secureboot-certs
 - Add unit tests to %%check

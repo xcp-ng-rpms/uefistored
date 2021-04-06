@@ -1,11 +1,12 @@
 Name:           uefistored
-Version:        0.3.0
+Version:        0.5.0
 Release:        1%{?dist}
 Summary:        Variables store for UEFI guests
 License:        GPLv2
 URL:            https://github.com/xcp-ng/uefistored
 Source0:        https://github.com/xcp-ng/uefistored/archive/v%{version}/%{name}-%{version}.tar.gz
 Source1:        PK.auth
+Source2:        https://github.com/nemequ/munit/archive/v0.2.0/munit-0.2.0.tar.gz
 
 BuildRequires:  make
 BuildRequires:  gcc
@@ -13,8 +14,13 @@ BuildRequires:  xen-dom0-libs-devel
 BuildRequires:  openssl-devel
 BuildRequires:  libxml2-devel
 BuildRequires:  libseccomp-devel
+BuildRequires:  clang-analyzer
+BuildRequires:  git
+BuildRequires:  valgrind
+BuildRequires:  libasan
 
 Requires: varstored-guard
+Requires: varstored-tools
 
 Obsoletes: varstored
 
@@ -34,6 +40,10 @@ protocol.
 
 %prep
 %autosetup -p1
+%setup -a 2
+
+# uefistored expects the munit directory to be at test/munit
+ln -sf ../munit-0.2.0 tests/munit
 
 %build
 make
@@ -44,16 +54,46 @@ make
 ln -s uefistored %{buildroot}%{_sbindir}/varstored
 
 # Install PK.auth
+install -d %{buildroot}%{_datadir}/uefistored/
+cp %{SOURCE1} %{buildroot}%{_datadir}/uefistored/
+
+# /var/lib/uefistored/ is used by secureboot-certs
+install -d %{buildroot}%{_localstatedir}/lib/uefistored/
+
+# varstored-tools expects /usr/share/varstored/ to hold these certificates
 install -d %{buildroot}%{_datadir}/varstored/
-cp %{SOURCE1} %{buildroot}%{_datadir}/varstored/
+ln -s %{_datadir}/uefistored/PK.auth %{buildroot}%{_datadir}/varstored/PK.auth
+ln -s %{_localstatedir}/lib/uefistored/KEK.auth %{buildroot}%{_datadir}/varstored/KEK.auth
+ln -s %{_localstatedir}/lib/uefistored/db.auth %{buildroot}%{_datadir}/varstored/db.auth
+ln -s %{_localstatedir}/lib/uefistored/dbx.auth %{buildroot}%{_datadir}/varstored/dbx.auth
+
+%check
+make test
 
 %files
 %{_sbindir}/uefistored
 %{_sbindir}/varstored
+%dir %{_datadir}/uefistored
+%{_datadir}/uefistored/PK.auth
+%{_sbindir}/secureboot-certs
+%dir %{_localstatedir}/lib/uefistored
+
 %dir %{_datadir}/varstored
+%{_datadir}/varstored/KEK.auth
 %{_datadir}/varstored/PK.auth
+%{_datadir}/varstored/db.auth
+%{_datadir}/varstored/dbx.auth
 
 %changelog
+* Mon Apr 5 2021 Bobby Eshleman <bobby.eshleman@gmail.com> - 0.5.0-1
+- Update to 0.5.0
+- Add secureboot-certs script
+- Require varstored-tools for secureboot-certs
+- Add unit tests to %%check
+- Add build deps for unit tests
+- Create /var/lib/uefistored/ for secureboot-certs
+- Add /usr/share/varstored symlinks
+
 * Thu Dec 10 2020 Samuel Verschelde <stormi-xcp@ylix.fr> - 0.3.0-1
 - Update to 0.3.0
 

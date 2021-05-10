@@ -1,5 +1,5 @@
 Name:           uefistored
-Version:        0.5.1
+Version:        0.6.0
 Release:        1%{?dist}
 Summary:        Variables store for UEFI guests
 License:        GPLv2
@@ -85,6 +85,10 @@ make test
 %{_datadir}/varstored/dbx.auth
 
 %changelog
+* Mon May 10 2021 Bobby Eshleman <bobby.eshleman@gmail.com> - 0.6.0-1
+- Update to 0.6.0
+- Support append writes for uefi variables
+
 * Mon Apr 12 2021 Bobby Eshleman <bobby.eshleman@gmail.com> - 0.5.1-1
 - Update to 0.5.1
 

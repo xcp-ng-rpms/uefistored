@@ -1,6 +1,6 @@
 Name:           uefistored
 Version:        1.0.0
-Release:        0.1%{?dist}
+Release:        1%{?dist}
 Summary:        Variables store for UEFI guests
 License:        GPLv2
 URL:            https://github.com/xcp-ng/uefistored
@@ -85,6 +85,10 @@ make test
 %{_datadir}/varstored/dbx.auth
 
 %changelog
+* Thu Jul 01 2021 Bobby Eshleman <bobbyeshleman@gmail.com> - 1.0.0-1
+- Update tarball to be that from tag v1.0.0
+- Update PK to a more sensible dummy CN
+
 * Thu Jul 01 2021 Samuel Verschelde <stormi-xcp@ylix.fr> - 1.0.0-0.1
 - Version 1.0.0 with updated secureboot-certs script
 - Not based on a tag, so release 0.1, pending the v1.0.0 tag

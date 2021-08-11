@@ -60,15 +60,32 @@ cp %{SOURCE1} %{buildroot}%{_datadir}/uefistored/
 # /var/lib/uefistored/ is used by secureboot-certs
 install -d %{buildroot}%{_localstatedir}/lib/uefistored/
 
-# varstored-tools expects /usr/share/varstored/ to hold these certificates
+# /usr/share/varstored is where XAPI writes the certificates when they have
+# been set for the pool - using the secureboot-certs script - and then a VM starts
+# (the certificates are written to disk by XAPI only when a VM starts),
+# and where varstored-tools expects them too.
+# For FHS compliance, we fill it with symlinks to files in /var/lib/uefistored
 install -d %{buildroot}%{_datadir}/varstored/
-ln -s %{_datadir}/uefistored/PK.auth %{buildroot}%{_datadir}/varstored/PK.auth
+ln -s %{_localstatedir}/lib/uefistored/PK.auth %{buildroot}%{_datadir}/varstored/PK.auth
 ln -s %{_localstatedir}/lib/uefistored/KEK.auth %{buildroot}%{_datadir}/varstored/KEK.auth
 ln -s %{_localstatedir}/lib/uefistored/db.auth %{buildroot}%{_datadir}/varstored/db.auth
 ln -s %{_localstatedir}/lib/uefistored/dbx.auth %{buildroot}%{_datadir}/varstored/dbx.auth
 
 %check
 make test
+
+%post
+# For compliance with UEFI specs, we want a PK to be available to uefistored
+# even if the pool has not been setup for Secure Boot using secureboot-certs.
+# One might believe that this scriptlet could cause issues for future host ISO upgrades,
+# after certificates have been loaded to XAPI using secureboot-certs. This PK may indeed
+# differ from the one in XAPI and thus not be appropriate.
+# But this issue solves itself automatically: the correct PK from XAPI db would
+# automatically overwrite the one on disk as soon as an UEFI VM starts.
+if [ ! -e /var/lib/uefistored/PK.auth ];
+then
+    cp -f /usr/share/uefistored/PK.auth /var/lib/uefistored/PK.auth
+fi
 
 %files
 %{_sbindir}/uefistored
@@ -77,14 +94,18 @@ make test
 %{_datadir}/uefistored/PK.auth
 %{_sbindir}/secureboot-certs
 %dir %{_localstatedir}/lib/uefistored
-
 %dir %{_datadir}/varstored
-%{_datadir}/varstored/KEK.auth
 %{_datadir}/varstored/PK.auth
+%{_datadir}/varstored/KEK.auth
 %{_datadir}/varstored/db.auth
 %{_datadir}/varstored/dbx.auth
 
 %changelog
+* next
+- FHS compliance: symlink /usr/share/varstored/PK.auth to /var/lib/uefistored/PK.auth
+- This also prevents our default PK from being overwritten by XAPI
+- For PK to always be available, copy PK to /var/lib/uefistored in %%post if missing
+
 * Thu Jul 01 2021 Bobby Eshleman <bobbyeshleman@gmail.com> - 1.0.0-1
 - Update tarball to be that from tag v1.0.0
 - Update PK to a more sensible dummy CN

@@ -1,5 +1,5 @@
 Name:           uefistored
-Version:        1.0.0
+Version:        1.1.0
 Release:        1%{?dist}
 Summary:        Variables store for UEFI guests
 License:        GPLv2
@@ -18,6 +18,7 @@ BuildRequires:  clang-analyzer
 BuildRequires:  git
 BuildRequires:  valgrind
 BuildRequires:  libasan
+BuildRequires:  glib2-devel
 
 Requires: varstored-guard
 Requires: varstored-tools
@@ -101,7 +102,8 @@ fi
 %{_datadir}/varstored/dbx.auth
 
 %changelog
-* next
+* Thu Aug 12 2021 Bobby Eshleman <bobbyeshleman@gmail.com> - 1.1.0-1
+- Update to 1.1.0
 - FHS compliance: symlink /usr/share/varstored/PK.auth to /var/lib/uefistored/PK.auth
 - This also prevents our default PK from being overwritten by XAPI
 - For PK to always be available, copy PK to /var/lib/uefistored in %%post if missing

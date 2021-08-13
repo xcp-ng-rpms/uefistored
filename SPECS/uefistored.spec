@@ -1,5 +1,5 @@
 Name:           uefistored
-Version:        1.1.0
+Version:        1.1.1
 Release:        1%{?dist}
 Summary:        Variables store for UEFI guests
 License:        GPLv2
@@ -101,6 +101,10 @@ fi
 %{_datadir}/varstored/dbx.auth
 
 %changelog
+* Fri Aug 13 2021 Samuel Verschelde <stormi-xcp@ylix.fr> - 1.1.1-1
+- Update to 1.1.1 to fix build
+- Improve %%setup section (Source0 was extracted twice)
+
 * Thu Aug 12 2021 Bobby Eshleman <bobbyeshleman@gmail.com> - 1.1.0-1
 - Update to 1.1.0
 - FHS compliance: symlink /usr/share/varstored/PK.auth to /var/lib/uefistored/PK.auth

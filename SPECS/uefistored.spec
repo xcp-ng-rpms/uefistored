@@ -40,8 +40,7 @@ knows how to communicate with uefistored using the device emulation
 protocol.
 
 %prep
-%autosetup -p1
-%setup -a 2
+%autosetup -a2 -p1
 
 # uefistored expects the munit directory to be at test/munit
 ln -sf ../munit-0.2.0 tests/munit

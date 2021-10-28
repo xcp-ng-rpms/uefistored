@@ -1,5 +1,5 @@
 Name:           uefistored
-Version:        1.1.1
+Version:        1.1.2
 Release:        1%{?dist}
 Summary:        Variables store for UEFI guests
 License:        GPLv2
@@ -101,6 +101,9 @@ fi
 %{_datadir}/varstored/dbx.auth
 
 %changelog
+* Thu Oct 28 2021 Bobby Eshleman <bobbyeshleman@gmail.com> - 1.1.2-1
+- Update to 1.1.2
+
 * Fri Aug 13 2021 Samuel Verschelde <stormi-xcp@ylix.fr> - 1.1.1-1
 - Update to 1.1.1 to fix build
 - Improve %%setup section (Source0 was extracted twice)

@@ -1,5 +1,5 @@
 Name:           uefistored
-Version:        1.1.4
+Version:        1.2.0
 Release:        1%{?dist}
 Summary:        Variables store for UEFI guests
 License:        GPLv2
@@ -7,6 +7,7 @@ URL:            https://github.com/xcp-ng/uefistored
 Source0:        https://github.com/xcp-ng/uefistored/archive/v%{version}/%{name}-%{version}.tar.gz
 Source1:        PK.auth
 Source2:        https://github.com/nemequ/munit/archive/v0.2.0/munit-0.2.0.tar.gz
+Source3:        00-XCP-ng-varstore-dir.conf
 
 BuildRequires:  make
 BuildRequires:  gcc
@@ -60,16 +61,9 @@ cp %{SOURCE1} %{buildroot}%{_datadir}/uefistored/
 # /var/lib/uefistored/ is used by secureboot-certs
 install -d %{buildroot}%{_localstatedir}/lib/uefistored/
 
-# /usr/share/varstored is where XAPI writes the certificates when they have
-# been set for the pool - using the secureboot-certs script - and then a VM starts
-# (the certificates are written to disk by XAPI only when a VM starts),
-# and where varstored-tools expects them too.
-# For FHS compliance, we fill it with symlinks to files in /var/lib/uefistored
-install -d %{buildroot}%{_datadir}/varstored/
-ln -s %{_localstatedir}/lib/uefistored/PK.auth %{buildroot}%{_datadir}/varstored/PK.auth
-ln -s %{_localstatedir}/lib/uefistored/KEK.auth %{buildroot}%{_datadir}/varstored/KEK.auth
-ln -s %{_localstatedir}/lib/uefistored/db.auth %{buildroot}%{_datadir}/varstored/db.auth
-ln -s %{_localstatedir}/lib/uefistored/dbx.auth %{buildroot}%{_datadir}/varstored/dbx.auth
+# Install config file to XAPI conf directory
+mkdir -p %{buildroot}/etc/xapi.conf.d/
+install -m 0755 %{SOURCE3} %{buildroot}/etc/xapi.conf.d/
 
 %check
 make test
@@ -81,7 +75,7 @@ make test
 # after certificates have been loaded to XAPI using secureboot-certs. This PK may indeed
 # differ from the one in XAPI and thus not be appropriate.
 # But this issue solves itself automatically: the correct PK from XAPI db would
-# automatically overwrite the one on disk as soon as an UEFI VM starts.
+# automatically overwrite the one on disk as soon as XAPI starts.
 if [ ! -e /var/lib/uefistored/PK.auth ];
 then
     cp -f /usr/share/uefistored/PK.auth /var/lib/uefistored/PK.auth
@@ -94,13 +88,13 @@ fi
 %{_datadir}/uefistored/PK.auth
 %{_sbindir}/secureboot-certs
 %dir %{_localstatedir}/lib/uefistored
-%dir %{_datadir}/varstored
-%{_datadir}/varstored/PK.auth
-%{_datadir}/varstored/KEK.auth
-%{_datadir}/varstored/db.auth
-%{_datadir}/varstored/dbx.auth
+/etc/xapi.conf.d/00-XCP-ng-varstore-dir.conf
 
 %changelog
+* Thu Apr 14 2022 Benjamin Reis <benjamin.reis@vates.fr> - 1.2.0-1
+- Update to 1.2.0
+- New conf file: /etc/xapi.conf.d/00-XCP-ng-varstore-dir.conf
+
 * Fri Feb 11 2022 Samuel Verschelde <stormi-xcp@ylix.fr> - 1.1.4-1
 - Update to 1.1.4
 

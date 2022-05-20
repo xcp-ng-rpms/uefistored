@@ -1,5 +1,5 @@
 Name:           uefistored
-Version:        1.1.4
+Version:        1.1.5
 Release:        1%{?dist}
 Summary:        Variables store for UEFI guests
 License:        GPLv2
@@ -101,6 +101,11 @@ fi
 %{_datadir}/varstored/dbx.auth
 
 %changelog
+* Fri May 20 2022 Samuel Verschelde <stormi-xcp@ylix.fr> - 1.1.5-1
+- Update to 1.1.5
+- secureboot-certs: changed the user agent, added --user-agent param
+- secureboot-certs: better error message in case of download failure
+
 * Fri Feb 11 2022 Samuel Verschelde <stormi-xcp@ylix.fr> - 1.1.4-1
 - Update to 1.1.4
 

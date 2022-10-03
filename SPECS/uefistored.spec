@@ -1,5 +1,5 @@
 Name:           uefistored
-Version:        1.2.0
+Version:        1.3.0
 Release:        1%{?dist}
 Summary:        Variables store for UEFI guests
 License:        GPLv2
@@ -91,6 +91,9 @@ fi
 /etc/xapi.conf.d/00-XCP-ng-varstore-dir.conf
 
 %changelog
+* Mon Oct 03 2022 Samuel Verschelde <stormi-xcp@ylix.fr> - 1.3.0-1
+- Update to 1.3.0
+
 * Thu Apr 14 2022 Benjamin Reis <benjamin.reis@vates.fr> - 1.2.0-1
 - Update to 1.2.0
 - New conf file: /etc/xapi.conf.d/00-XCP-ng-varstore-dir.conf

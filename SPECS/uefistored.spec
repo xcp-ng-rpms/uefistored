@@ -1,6 +1,6 @@
 Name:           uefistored
 Version:        1.3.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Variables store for UEFI guests
 License:        GPLv2
 URL:            https://github.com/xcp-ng/uefistored
@@ -24,7 +24,7 @@ BuildRequires:  glib2-devel
 Requires: varstored-guard
 Requires: varstored-tools
 
-Obsoletes: varstored
+Obsoletes: varstored < 1.0
 
 %description
 uefistored is a service that runs in dom0 userspace for servicing port
@@ -91,6 +91,9 @@ fi
 /etc/xapi.conf.d/00-XCP-ng-varstore-dir.conf
 
 %changelog
+* Tue Oct 25 2022 Samuel Verschelde <stormi-xcp@ylix.fr> - 1.3.0-2
+- Only obsolete old versions of varstored
+
 * Mon Oct 03 2022 Samuel Verschelde <stormi-xcp@ylix.fr> - 1.3.0-1
 - Update to 1.3.0
 
